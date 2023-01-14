@@ -60,6 +60,10 @@ public class MakeChange {
 		price = s.nextDouble();
 		s.nextLine(); // <<<<<<< da Fix
 
+		if (price == 0) {
+			System.out.println("Apparently this item is free!");
+		}
+
 		// return price
 		return price;
 	}
@@ -106,7 +110,7 @@ public class MakeChange {
 		double change = tender - price;
 		// convert to two decimal places first
 		// tell the user the amount they are owed
-		System.out.println("Your change is " + change);
+		System.out.println("Your change is $" + change);
 
 		// add to this string which will be our final output
 		// only add if denomination not zero
@@ -122,75 +126,131 @@ public class MakeChange {
 		// largest bill is $20
 		twenties = (int) tempAmount / 20;
 		if (twenties != 0) {
-			currency += " Twenties: " + twenties;
+			currency += " " + twenties + " twenty dollar bill";
+			if (twenties > 1) {
+				currency += "s";
+			}
 		}
 		// get remainder
 		tempAmount = tempAmount % 20;
 
 		// next largest is $10
 		tens = (int) tempAmount / 10;
-		if (twenties != 0) {
-			currency += " Tens: " + tens;
+		if (tens != 0) {
+			if(twenties!=0) {
+				currency+=",";
+			}
+			currency += " " + tens + " ten dollar bill";
+			if (tens > 1) {
+				currency += "s";
+			}
 		}
 		tempAmount = tempAmount % 10;
 
 		// next largest is $5
 		fives = (int) tempAmount / 5;
 		if (fives != 0) {
-			currency += " Fives: " + fives;
+			if(twenties !=0 || tens!=0) {
+				currency+=",";
+			}
+			currency += " " + fives + " five dollar bill";
+			if (fives > 1) {
+				currency += "s";
+			}
 		}
 		tempAmount = tempAmount % 5;
 
 		// next largest is $1
 		ones = (int) tempAmount;
 		if (ones != 0) {
-			currency += " Ones: " + ones;
+			if(twenties !=0 || tens!=0 || fives !=0) {
+				currency+=",";
+			}
+			currency += " " + ones + " one dollar bill";
+			if (ones > 1) {
+				currency += "s";
+			}
 		}
 		tempAmount -= ones;
 
 		// for the change, convert the remainder to whole number amount and continue
 		// process
-		tempAmount *= 100;
+		// System.out.println(tempAmount);
+
 		// round up or down
 		double diff = tempAmount - (int) tempAmount;
-		// checks for basically ONLY DOLLARS -- no rounding or change required
+
+		// even event amount, no need to check change
 		if (diff == 0) {
 			currency += " and no coins";
-		} else if (diff >= 0.5) {
-			tempAmount += 1;
-		} else {
-
+			// check for round up
+		} else if (diff >= .005) {
+			tempAmount += .005;
 		}
+
+		// get whole number to repeat process with coins
+		tempAmount *= 100;
+		// System.out.println(tempAmount);
 
 		// next largest is quarters
 		quarters = (int) tempAmount / 25;
 		if (quarters != 0) {
-			currency += " Quarters: " + quarters;
+			if(twenties !=0 || tens!=0 || fives !=0 || ones!=0) {
+				currency+=",";
+			}
+			currency += " " + quarters + " quarter";
+			if (quarters > 1) {
+				currency += "s";
+			}
 		}
 		tempAmount = tempAmount % 25;
+		// System.out.println(tempAmount);
 
 		// next largest is dimes
 		dimes = (int) tempAmount / 10;
 		if (dimes != 0) {
-			currency += " Dimes: " + dimes;
+			if(twenties !=0 || tens!=0 || fives !=0 || ones!=0 || quarters!=0) {
+				currency+=",";
+			}
+			currency += " " + dimes + " dime";
+			if (dimes > 1) {
+				currency += "s";
+			}
 		}
 		tempAmount = tempAmount % 10;
+		// System.out.println(tempAmount);
 
 		// next largest is nickels
 		nickels = (int) tempAmount / 5;
 		if (nickels != 0) {
-			currency += " Nickels: " + nickels;
+			if(twenties !=0 || tens!=0 || fives !=0 || ones!=0 || quarters!=0 || dimes!=0) {
+				currency+=",";
+			}
+			currency += " " + nickels + " nickel";
+			if (nickels > 1) {
+				currency += "s";
+			}
 		}
 		tempAmount = tempAmount % 5;
-		
-		//finally we get the number of pennies
-		pennies = (int)tempAmount;
-		if(pennies!=0) {
-			currency += " Pennies: " + pennies;
+		// System.out.println(tempAmount);
+
+		// finally we get the number of pennies
+		pennies = (int) tempAmount;
+		if (pennies != 0) {
+			if(twenties !=0 || tens!=0 || fives !=0 || ones!=0 || quarters!=0 || dimes!=0 || nickels!=0) {
+				currency+=", and";
+			}
+			if (pennies > 1) {
+				currency += " " + pennies + " pennies";
+			} else {
+				currency += " " + pennies + " penny";
+			}
 		}
+		// System.out.println(tempAmount);
+		//add period
+		currency+=".";
 		
 		System.out.println(currency);
-
 	}
 
 	// this method tests for valid input
@@ -200,7 +260,7 @@ public class MakeChange {
 			System.out.println(amount + " is invalid! Quitting!");
 			return false;
 		} else {
-			System.out.println("Continuing using " + amount);
+			System.out.println("You entered: $" + amount);
 			return true;
 		}
 
