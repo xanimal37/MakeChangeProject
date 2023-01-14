@@ -17,9 +17,6 @@ public class MakeChange {
 		//close scanner!
 		scanner.close();
 		
-
-		// get the amount of money tendered
-
 		// test amount tendered
 
 		// calculate change
@@ -44,6 +41,7 @@ public class MakeChange {
 		price = s.nextDouble();
 		
 		// round the price to an amount that can be represented in currency
+		//if 45.32143245 round to 45.32
 
 		// return price
 		return price;
@@ -86,5 +84,21 @@ public class MakeChange {
 			return true;
 		}
 	}
+	
+	//User story 4
+	//Calculate and display change
+	public static double makeChange(double price, double tender) {
+		
+		return 0;
+	}
+	
+	
+	/* this extra method will test and convert dollar amount
+	   example:
+	   45.234923482400 should be calculated as 45.23
+	   3.000000 or 3 should be 3.00
+	   -2 is a fail
+	 */
+	
 
 }
